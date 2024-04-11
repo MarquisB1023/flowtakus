@@ -9,7 +9,7 @@ function Products({ token }) {
     async function fetchProducts() {
       try {
         const response = await fetch(
-          "https://localhost/ecommerce_flowtakus/api/products",
+          "https://localhost3000/api/products",
           {
             headers: {
               "Content-Type": "application/json",

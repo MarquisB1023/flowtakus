@@ -13,7 +13,7 @@ function Register({ setToken }) {
     event.preventDefault();
     try {
       const response = await fetch(
-        "https://localhost/ecommerce_flowtaku/api/users/register",
+        "https://localhost/3000/register",
         {
           method: "POST",
           headers: {

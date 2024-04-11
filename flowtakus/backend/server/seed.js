@@ -2,9 +2,11 @@ const pg = require("pg");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { query } = require("express");
+const { v4: uuidv4 } = require('uuid');
 const client = new pg.Client(
   process.env.DATABASE_URL || 'postgres://localhost/ecommerce_flowtakus'
 );
+const JWT = process.env.JWT_SECRET || "preptime";
 
 const UUID = "uuid";
 const dropTables = async () => {
@@ -45,6 +47,8 @@ const createTables = async () => {
   await client.query(SQL);
 };
 const seedUsers = async () => {
+
+    
   const SQL = ` 
 INSERT INTO  users (name, password,email) VALUES ('Frank',$1,'email'),
  ('jake',$2,'email'),
@@ -58,6 +62,8 @@ INSERT INTO  users (name, password,email) VALUES ('Frank',$1,'email'),
  RETURNING * 
  ;
 `;
+
+
   const result = await client.query(SQL, [
     await bcrypt.hash("password", 5),
     await bcrypt.hash("password", 5),
@@ -86,11 +92,13 @@ const seedProducts = async () => {
   ;
 
   `;
+
+  
   const result = await client.query(SQL);
   return result.rows;
 };
 
-const seedcarts = async (users, products) => {
+const seedCarts = async (users, products) => {
   const queryParams = [
     users[0].id,
     products[0].id,
@@ -116,10 +124,10 @@ const seed = async () => {
   console.log("seedUsers", seedTestUsers);
   const seedTestProducts = await seedProducts();
   console.log("seedProducts", seedTestProducts);
-  await seedcarts(seedTestUsers, seedTestProducts);
+  await seedCarts(seedTestUsers, seedTestProducts);
 };
 
-const autheticateuser = async () => {
+const authenticateUser = async (username,password) => {
   const SQL = `
     SELECT id, password
     FROM users
@@ -201,14 +209,14 @@ const Carts = async (user_id, product_id) => {
     INSERT INTO users_products(id, userId,productId)
     VALUES($1 ,$2, $3)
     `;
-  const response = await client.query(SQL, [UUID.v4(), user_id, product_id]);
+  const response = await client.query(SQL, [uuidv4(), user_id, product_id]);
   return response.rows;
 };
 
 module.exports = {
   seed,
   client,
-  autheticateuser,
+  authenticateUser,
   createUser,
   createProducts,
   fetchUsers,

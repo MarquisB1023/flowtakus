@@ -9,7 +9,7 @@ function Account({ token ,setToken}) {
   async function downloadUser() {
     try {
       const response = await fetch(
-        "https://localhost/ecommerce_flowtakus/api/users/me",
+        "https://localhost3000/api/users/me",
         {
           method: "GET",
           headers: {
@@ -24,10 +24,10 @@ function Account({ token ,setToken}) {
       console.error(error);
     }
   }
-  async function deleteCarts(resId) {
+  async function deleteCarts(cartId) {
     try {
       const response = await fetch(
-        `https://localhost/ecommerce_flowtakus/api/carts/${resId}`,
+        `https://localhost3000/api/carts/${cartId}`,
         {
           method: "DELETE",
           headers: {
@@ -65,20 +65,20 @@ function Account({ token ,setToken}) {
             <li>Last Name: {accounts.lastname}</li>
             <li>Email: {accounts.email}</li>
             <li>
-              Books:
+              Carts:
               <ul>
-                {accounts.books.map((book) => {
+                {accounts.Carts.map((cart) => {
                   return (
                     <div>
-                      <li key={book.id}>{book.title}</li>
+                      <li key={cart.id}>{cart.title}</li>
 
                       <button
                         onClick={async () => {
-                          await deleteCarts(book.id);
+                          await deleteCarts(cart.id);
                           downloadUser();
                         }}
                       >
-                        Return Book
+                        Return cart
                       </button>
                     
                     </div>

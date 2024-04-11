@@ -16,7 +16,7 @@ productsRouter.get(async (req, res, next) => {
 
 productsRouter.post("/api/products", async (req, res, next) => {
   try {
-    res.send(await client.createProducts());
+    res.send(await client.createProducts(req.body));
   } catch {
     error;
   }

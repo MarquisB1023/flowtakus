@@ -9,7 +9,7 @@ if (JWT === "preptime") {
 
 async function createProducts({ price, password }) {
   const SQL = `
-    INSERT INTO products(id, price, password) VALUES($1, $2, $3) RETURNING *
+    INSERT INTO products(price, password) VALUES($1, $2, $3) RETURNING *
   `;
   const response = await client.query(SQL, [
     uuid.v4(),
@@ -49,11 +49,11 @@ async function findProductsWithToken(token) {
   return response.rows[0];
 }
 
-async function authenticate({ price, password }) {
+async function authenticate({ id, password }) {
   const SQL = `
     SELECT id, price, password FROM products WHERE price=$1;
   `;
-  const response = await client.query(SQL, [price]);
+  const response = await client.query(SQL, [id]);
   if (
     !response.rows.length ||
     (await bcrypt.compare(password, response.rows[0].password)) === false

@@ -9,7 +9,7 @@ if (JWT === "preptime") {
 
 async function createCarts({ password }) {
   const SQL = `
-    INSERT INTO Carts(id, password) VALUES($1, $2, $3) RETURNING *
+    INSERT INTO Carts(id, password) VALUES($1) RETURNING *
   `;
   const response = await client.query(SQL, [
     uuid.v4(),
@@ -48,11 +48,11 @@ async function findCartsWithToken(token) {
   return response.rows[0];
 }
 
-async function authenticate({ password }) {
+async function authenticate({ id , password }) {
   const SQL = `
-    SELECT id, password FROM carts WHER=$1;
+    SELECT id, password FROM carts WHERE id=$1;
   `;
-  const response = await client.query(SQL, [Cartsname]);
+  const response = await client.query(SQL, [id]);
   if (
     !response.rows.length ||
     (await bcrypt.compare(password, response.rows[0].password)) === false

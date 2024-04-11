@@ -9,7 +9,7 @@ function Account({ token ,setToken}) {
   async function downloadUser() {
     try {
       const response = await fetch(
-        "https:///localhost/ecommerce_flowtakus/api/users/me",
+        "https:///localhost3000/api/users/me",
         {
           method: "GET",
           headers: {
@@ -27,7 +27,7 @@ function Account({ token ,setToken}) {
   async function deleteCarts(resId) {
     try {
       const response = await fetch(
-        `https:///localhost/ecommerce_flowtakus/api/carts/${cartId}`,
+        `https:///localhost3000/api/carts/${cartId}`,
         {
           method: "DELETE",
           headers: {
