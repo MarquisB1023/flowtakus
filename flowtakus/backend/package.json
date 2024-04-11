@@ -15,7 +15,10 @@
     "braces": "^3.0.2",
     "chokidar": "^3.6.0",
     "concat-map": "^0.0.1",
+    "cors": "^2.8.5",
     "debug": "^4.3.4",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
     "fill-range": "^7.0.1",
     "fsevents": "^2.3.3",
     "glob-parent": "^5.1.2",
@@ -28,9 +31,11 @@
     "jsonwebtoken": "^9.0.2",
     "lru-cache": "^6.0.0",
     "minimatch": "^3.1.2",
+    "morgan": "^1.10.0",
     "ms": "^2.1.2",
     "nopt": "^1.0.10",
     "normalize-path": "^3.0.0",
+    "pg": "^8.11.5",
     "picomatch": "^2.3.1",
     "pstree.remy": "^1.1.8",
     "readdirp": "^3.6.0",
@@ -44,6 +49,7 @@
     "yallist": "^4.0.0"
   },
   "scripts": {
+    "start:dev": "nodemon server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
