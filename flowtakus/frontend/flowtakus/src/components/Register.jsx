@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
+const API = "http://localhost:4000/api";
 
 function Register({ setToken }) {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [Name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
@@ -12,26 +12,24 @@ function Register({ setToken }) {
   async function handleSubmit(event) {
     event.preventDefault();
     try {
-      const response = await fetch(
-        "https://localhost/3000/register",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            firstname: firstName,
-            lastname: lastName,
-            email: email,
-            password: password,
-          }),
-        }
-      );
+      const response = await fetch(`${API}/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: Name,
+          email: email,
+          password: password,
+        }),
+      });
+      console.log("submitting");
       const result = await response.json();
+
       const token = result.token;
+      console.log(result);
       setToken(token);
       setLoggedIn(true);
-      console.log(result);
     } catch (error) {
       console.error(error);
     }
@@ -45,24 +43,14 @@ function Register({ setToken }) {
       <div className="regcontainer">
         <h2>Register for a New Account</h2>
         <form onSubmit={handleSubmit}>
-          <h2>First Name</h2>
+          <h2>Name</h2>
           {error && <p>{error}</p>}
           <label>
-            First:
+            Name:
             <input
-              name="firstName"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-            />
-          </label>
-
-          <h2>Last Name</h2>
-          <label>
-            Last:
-            <input
-              name="lastName"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
+              name="Name"
+              value={Name}
+              onChange={(e) => setName(e.target.value)}
             />
           </label>
 

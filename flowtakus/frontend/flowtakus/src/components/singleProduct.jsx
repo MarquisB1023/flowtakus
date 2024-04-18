@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
+const API = 'http://localhost:4000/api'
 
 function Singleproduct({ token, setToken }) {
   console.log("Loaded!");
   const params = useParams();
   const productId = params.productId;
-
+ 
   const [singleProduct, setSingleProduct] = useState(null);
 
   useEffect(() => {
@@ -14,7 +15,7 @@ function Singleproduct({ token, setToken }) {
       console.log("downloading product");
       try {
         const response = await fetch(
-          `https://localhost/ecommerce_flowtakus/api/products/${productId}`
+          `${API}/productId`
         );
         console.log(response);
         const result = await response.json();
@@ -31,7 +32,7 @@ function Singleproduct({ token, setToken }) {
   async function checkoutProduct(productId) {
     try {
       const response = await fetch(
-        `https://localhost/ecommerce_flowtakus/api/products/${productId}`,
+        `${API}/products/${productId}`,
         {
           method: "PATCH",
           headers: {

@@ -9,7 +9,11 @@ if (JWT === "preptime") {
 
 async function createCarts({ password }) {
   const SQL = `
-    INSERT INTO Carts(id, password) VALUES($1) RETURNING *
+    INSERT INTO Carts WHERE
+    users_products(id, userId,productId)
+     VALUES($1)
+    
+    RETURNING *
   `;
   const response = await client.query(SQL, [
     uuid.v4(),
@@ -48,7 +52,7 @@ async function findCartsWithToken(token) {
   return response.rows[0];
 }
 
-async function authenticate({ id , password }) {
+async function authenticate({ id, password }) {
   const SQL = `
     SELECT id, password FROM carts WHERE id=$1;
   `;

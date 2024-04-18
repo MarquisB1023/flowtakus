@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+const API = "http://localhost:4000/api";
 
 function Products({ token }) {
   const [products, setProducts] = useState([]);
@@ -8,16 +9,10 @@ function Products({ token }) {
   useEffect(() => {
     async function fetchProducts() {
       try {
-        const response = await fetch(
-          "https://localhost3000/api/products",
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        const response = await fetch(`${API}/products`);
         const data = await response.json();
-        setProducts(data.Products);
+        console.log(data);
+        setProducts(data);
       } catch (error) {
         console.error(error);
       }
@@ -26,27 +21,27 @@ function Products({ token }) {
     fetchProducts();
   }, []);
 
-  const handleProductsClick = (productsId) => {
-    navigate(`/products/${productsId}`);
+  const handleProductsClick = (cartId) => {
+    navigate(`/carts/${cartId}`);
   };
 
   return (
     <>
       <div className="Products-container">
         {products &&
-          products.map((products) => {
+          products.map((product) => {
             return (
-              <div key={products.id} className="products-container">
-                <p className="products-title">{products.title}</p>
+              <div key={product.id} className="products-container">
+                <p className="products-title">{product.name}</p>
                 <img
                   className="products-cover"
-                  src={products.coverimage}
-                  alt={products.title}
+                  src={`http://localhost:4000/${product.images[0]}`}
+                  alt={product.images[0]}
                 />
-                <p className="products-author">{products.author}</p>
-                <p>{products.available}</p>
-                <button onClick={() => handleProductsClick(products.id)}>
-                  View Info
+                <p className="products-prices">${product.price}</p>
+                <p>{product.available}</p>
+                <button onClick={() => handleProductsClick(product.id)}>
+                  Add To Cart
                 </button>
               </div>
             );

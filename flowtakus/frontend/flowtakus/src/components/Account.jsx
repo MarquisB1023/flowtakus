@@ -1,23 +1,22 @@
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 
-function Account({ token ,setToken}) {
+const API = "https://localhost:4000/api";
+
+function Account({ token, setToken }) {
   console.log("account", token);
-  
+
   const [accounts, setAccounts] = useState(null);
   const [error, setError] = useState();
   async function downloadUser() {
     try {
-      const response = await fetch(
-        "https://localhost3000/api/users/me",
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await fetch(`${API}/auth`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
       const result = await response.json();
       setAccounts(result);
     } catch (error) {
@@ -26,16 +25,13 @@ function Account({ token ,setToken}) {
   }
   async function deleteCarts(cartId) {
     try {
-      const response = await fetch(
-        `https://localhost3000/api/carts/${cartId}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await fetch(`${API}/api/carts/${cartId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
       const result = await response.json();
 
       console.log(result);
@@ -47,7 +43,7 @@ function Account({ token ,setToken}) {
   const handleLogout = () => {
     localStorage.removeItem("token");
     setToken(null);
-    navigate("/");
+    Navigate("/");
   };
 
   useEffect(() => {
@@ -61,8 +57,7 @@ function Account({ token ,setToken}) {
       {accounts && (
         <div>
           <ul>
-            <li>First Name: {accounts.firstname}</li>
-            <li>Last Name: {accounts.lastname}</li>
+            <li>Name: {accounts.name}</li>
             <li>Email: {accounts.email}</li>
             <li>
               Carts:
@@ -80,7 +75,6 @@ function Account({ token ,setToken}) {
                       >
                         Return cart
                       </button>
-                    
                     </div>
                   );
                 })}
@@ -88,8 +82,8 @@ function Account({ token ,setToken}) {
             </li>
           </ul>
           <button token={token} onClick={handleLogout}>
-                        logoout
-                      </button>
+            logoout
+          </button>
         </div>
       )}
     </>

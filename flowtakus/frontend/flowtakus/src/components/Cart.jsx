@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
+const API = "https://localhost:4000/api"
 
 function Account({ token ,setToken}) {
   console.log("account", token);
@@ -9,7 +10,7 @@ function Account({ token ,setToken}) {
   async function downloadUser() {
     try {
       const response = await fetch(
-        "https:///localhost3000/api/users/me",
+        `${API}/users/me`,
         {
           method: "GET",
           headers: {
@@ -24,10 +25,10 @@ function Account({ token ,setToken}) {
       console.error(error);
     }
   }
-  async function deleteCarts(resId) {
+  async function deleteCarts(cartId) {
     try {
       const response = await fetch(
-        `https:///localhost3000/api/carts/${cartId}`,
+        `${API}carts/${cartId}`,
         {
           method: "DELETE",
           headers: {
@@ -61,8 +62,7 @@ function Account({ token ,setToken}) {
       {accounts && (
         <div>
           <ul>
-            <li>First Name: {accounts.firstname}</li>
-            <li>Last Name: {accounts.lastname}</li>
+            <li> Name: {accounts.name}</li>
             <li>Email: {accounts.email}</li>
             <li>
               Products:

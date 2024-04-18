@@ -6,43 +6,31 @@ const client = require("../server/seed");
 cartsRouter.get(async (req, res, next) => {
   try {
     res.send(await client.fetchCarts());
-  } catch {
-    error;
-  }
-  {
+  } catch (error) {
     next(error);
   }
 });
 
-cartsRouter.post("/api/carts", async (req, res, next) => {
+cartsRouter.post("/", async (req, res, next) => {
   try {
     res.send(await client.createCarts(req.body));
-  } catch {
-    error;
-  }
-  {
+  } catch (error) {
     next(error);
   }
 });
 
-cartsRouter.get("/api/carts", async (req, res, next) => {
+cartsRouter.delete("/", async (req, res, next) => {
   try {
-    res.send(await client.fetchCarts());
-  } catch {
-    error;
-  }
-  {
+    res.send(await client.deleteCarts());
+  } catch (error) {
     next(error);
   }
 });
 
-cartsRouter.get("/carts/:id/", async (req, res, next) => {
+cartsRouter.get("/:id", async (req, res, next) => {
   try {
     res.send(await client.fetchCarts(req.params.id));
-  } catch {
-    error;
-  }
-  {
+  } catch (error) {
     next(error);
   }
 });

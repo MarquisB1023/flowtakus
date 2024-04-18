@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
 
+const API = "http://localhost:4000/api"
+
 function Login({ setToken }) {
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
@@ -11,7 +13,7 @@ function Login({ setToken }) {
     event.preventDefault();
     try {
       const response = await fetch(
-        "https:///localhost/ecommerce_flowtakus/api/users/login",
+        `${API}/login`,
         {
           method: "POST",
           headers: {

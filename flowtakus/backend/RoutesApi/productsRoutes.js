@@ -6,45 +6,43 @@ const client = require("../server/seed");
 productsRouter.get(async (req, res, next) => {
   try {
     res.send(await client.fetchProducts());
-  } catch {
-    error;
-  }
-  {
+  } catch (error) {
     next(error);
   }
 });
 
-productsRouter.post("/api/products", async (req, res, next) => {
+productsRouter.post("/", async (req, res, next) => {
   try {
     res.send(await client.createProducts(req.body));
-  } catch {
-    error;
-  }
-  {
+  } catch (error) {
     next(error);
   }
 });
 
-productsRouter.get("/api/products", async (req, res, next) => {
+productsRouter.get("/", async (req, res, next) => {
   try {
-    res.send(await client.fetchProducts(req.body));
-  } catch {
-    error;
-  }
-  {
+    const productImages = await client.fetchAllProductsImages();
+    const products = await client.fetchProducts(req.body);
+
+    for (const product of products) {
+      const imageNames = productImages
+        .filter((image) => image.product_id === product.id)
+        .map((image) => image.name);
+      product.images = imageNames;
+    }
+
+    res.send(products);
+  } catch (error) {
     next(error);
   }
 });
 
-productsRouter.get("/products/:id/", async (req, res, next) => {
+productsRouter.get("/:id", async (req, res, next) => {
   try {
     res.send(await client.fetchProducts(req.params.id));
-  } catch {
-    error;
-  }
-  {
+  } catch (error) {
     next(error);
   }
 });
 
-module.exports = productsRouter;
+module.exports = productsRouter;    
