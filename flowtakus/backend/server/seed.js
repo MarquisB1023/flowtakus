@@ -241,35 +241,38 @@ const fetchProductsById = async (products_id) => {
 
 const fetchCarts = async (user_id, products_id) => {
   const SQL = `
-  SELECT *
-  FROM cart
-  WHERE user_id = $1
+  SELECT * 
+  FROM carts
+  WHERE user_id = $1 AND product_id = $2;
     `;
   const response = await client.query(SQL, [user_id, products_id]);
 
   return response.rows;
 };
 
-const createCarts = async (user_id, products_id) => {
-    const SQL = `
-    INSERT INTO
-    FROM carts
-    WHERE users_products(id, userId,productId)
+const createCarts = async ({ user_id ,product_id}) => {
+  const id = uuidv4();
+  const SQL = `
+  INSERT INTO carts 
+  (id, user_id, product_id)
+  VALUES ($1, $2, $3)
+  RETURNING *;
       `;
-    const response = await client.query(SQL, [user_id, products_id]);
-  
-    return response.rows;
-  };
+  const response = await client.query(SQL, [id, user_id, product_id]);
 
-  const deleteCarts = async (user_id, products_id) => {
-    const SQL = `
-    DELETE 
-    FROM carts
+  return response.rows[0];
+};
+
+const deleteCarts = async (user_id, products_id) => {
+  const SQL = `
+  DELETE 
+  FROM carts
+  WHERE user_id = $1 AND product_id = $2;
       `;
-    const response = await client.query(SQL, [user_id, products_id]);
-  
-    return response.rows;
-  };
+  const response = await client.query(SQL, [user_id, products_id]);
+
+  return response.rows;
+};
 
 const fetchProductsImages = async (products_id) => {
   const SQL = `
@@ -289,7 +292,7 @@ const fetchAllProductsImages = async () => {
 };
 const Carts = async (user_id, product_id) => {
   const SQL = `
-    INSERT INTO users_products(id, userId,productId)
+    INSERT INTO users_products(id, user_id,product_id)
     VALUES($1 ,$2, $3)
     `;
   const response = await client.query(SQL, [uuidv4(), user_id, product_id]);

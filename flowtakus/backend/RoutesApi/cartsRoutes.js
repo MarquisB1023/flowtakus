@@ -19,9 +19,9 @@ cartsRouter.post("/", async (req, res, next) => {
   }
 });
 
-cartsRouter.delete("/", async (req, res, next) => {
+cartsRouter.delete("/:id", async (req, res, next) => {
   try {
-    res.send(await client.deleteCarts());
+    res.send(await client.deleteCarts(req.params.id));
   } catch (error) {
     next(error);
   }

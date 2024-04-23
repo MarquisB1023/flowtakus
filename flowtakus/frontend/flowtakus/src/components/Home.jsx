@@ -10,13 +10,13 @@ import Products from "./Products";
 function Home() {
   return (
     <>
-    
+      <div className = "Storefront-container" >
       <h1>
         {/* <img id="logo-image" src={bookLogo} alt="Library App Logo" /> */}
         FlowTakus
       </h1>
-      <p>Customize anime wear for shoes!</p>
-
+      <h2>Customize anime wear for shoes!</h2>
+      </div>
       {/* <Account token={token} setFunction={setToken} />
       
       <Login token={token} setFunction={setToken} /> */}

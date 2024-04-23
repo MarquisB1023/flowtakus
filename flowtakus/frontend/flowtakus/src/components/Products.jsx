@@ -21,8 +21,27 @@ function Products({ token }) {
     fetchProducts();
   }, []);
 
-  const handleProductsClick = (cartId) => {
-    navigate(`/carts/${cartId}`);
+  const handleProductsClick = async (productId, userId) => {
+    try {
+      const response = await fetch(`${API}/carts/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+          body: JSON.stringify({
+            user_id: userId,
+            product_id: productId,
+          }),
+        },
+      });
+      if (response.ok) {
+        navigate(`/carts`);
+      } else {
+        console.error("Failed to add product to cart");
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -40,6 +59,7 @@ function Products({ token }) {
                 />
                 <p className="products-prices">${product.price}</p>
                 <p>{product.available}</p>
+                {/* <button onClick={() => handleProductsClick(product.id)}> */}
                 <button onClick={() => handleProductsClick(product.id)}>
                   Add To Cart
                 </button>

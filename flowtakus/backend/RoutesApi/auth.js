@@ -1,7 +1,7 @@
 const authRouter = require("express").Router();
 const { authenticate, isLoggedIn, fetchUsers } = require("../server/user.js");
 
-authRouter.post("/", async (req, res, next) => {
+authRouter.post("/login", async (req, res, next) => {
   try {
     res.send(await authenticate(req.body));
   } catch (ex) {
@@ -9,7 +9,7 @@ authRouter.post("/", async (req, res, next) => {
   }
 });
 
-authRouter.get("/", isLoggedIn, (req, res, next) => {
+authRouter.get("/me", isLoggedIn, (req, res, next) => {
   try {
     res.send(req.user);
   } catch (ex) {
@@ -17,7 +17,7 @@ authRouter.get("/", isLoggedIn, (req, res, next) => {
   }
 });
 
-authRouter.get("/", async (req, res, next) => {
+authRouter.get("/users", async (req, res, next) => {
   try {
     res.send(await fetchUsers());
   } catch (ex) {

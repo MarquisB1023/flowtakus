@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 
-const API = "https://localhost:4000/api";
+const API = "http://localhost:4000/api";
 
 function Account({ token, setToken }) {
   console.log("account", token);
@@ -10,22 +10,23 @@ function Account({ token, setToken }) {
   const [error, setError] = useState();
   async function downloadUser() {
     try {
-      const response = await fetch(`${API}/auth`, {
+      const response = await fetch(`${API}/auth/me`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `${token}`,
         },
       });
       const result = await response.json();
+      console.log(result);
       setAccounts(result);
     } catch (error) {
       console.error(error);
     }
   }
-  async function deleteCarts(cartId) {
+  async function deleteCarts(userId) {
     try {
-      const response = await fetch(`${API}/api/carts/${cartId}`, {
+      const response = await fetch(`${API}/api/carts/${userId}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -48,6 +49,7 @@ function Account({ token, setToken }) {
 
   useEffect(() => {
     downloadUser();
+    console.log(token, "here");
   }, []);
 
   return (
@@ -57,7 +59,7 @@ function Account({ token, setToken }) {
       {accounts && (
         <div>
           <ul>
-            <li>Name: {accounts.name}</li>
+            {/* <li>Name: {accounts.name}</li>
             <li>Email: {accounts.email}</li>
             <li>
               Carts:
@@ -79,7 +81,7 @@ function Account({ token, setToken }) {
                   );
                 })}
               </ul>
-            </li>
+            </li> */}
           </ul>
           <button token={token} onClick={handleLogout}>
             logoout

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
 
-const API = "http://localhost:4000/api"
+const API = "http://localhost:4000/api";
 
 function Login({ setToken }) {
   const [Email, setEmail] = useState("");
@@ -12,22 +12,19 @@ function Login({ setToken }) {
   async function handleSubmit(event) {
     event.preventDefault();
     try {
-      const response = await fetch(
-        `${API}/login`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: Email,
-            password: Password,
-          }),
-        }
-      );
+      const response = await fetch(`${API}/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: Email,
+          password: Password,
+        }),
+      });
       console.log("response", response);
       const result = await response.json();
-
+      console.log(result, "here");
       const token = result.token;
       setToken(token);
       setLoggedIn(true);

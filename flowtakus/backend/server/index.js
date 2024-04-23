@@ -9,7 +9,10 @@ app.use(cors());
 app.use(express.json());
 app.use(require("morgan")("dev"));
 app.use(express.static(path.join(__dirname, "images")));
+app.use(express.static(path.join(__dirname, "..", "..","frontend","flowtakus","dist")));
+app.use("/",express.static(path.join(__dirname, "..", "..","frontend","flowtakus","dist","index.html")));
 app.use("/api", apiRouter);
+
 const initFunctions = require("./seed.js");
 
 app.use((err, req, res, next) => {

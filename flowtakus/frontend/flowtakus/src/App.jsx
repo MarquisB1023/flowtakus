@@ -8,17 +8,16 @@ import Products from "./components/Products";
 import Login from "./components/Login.jsx";
 import Navigation from "./components/Navigation";
 import Register from "./components/Register.jsx";
-import Cart from "./components/Cart.jsx";
+import Carts from "./components/Carts.jsx";
 import singleProduct from "./components/singleProduct";
 import { Routes, Route } from "react-router-dom";
 
 function App() {
-  const [token, setToken] = useState(localStorage.getItem("token")||null);
+  const [token, setToken] = useState(localStorage.getItem("token") || null);
 
   useEffect(() => {
     localStorage.setItem("token", token);
   }, [token]);
-
 
   return (
     <>
@@ -27,29 +26,29 @@ function App() {
       </div>
       <Routes>
         <Route path="/" element={<Home />} />
+        
+       
         <Route
           path="/Login"
           element={<Login token={token} setToken={setToken} />}
         />
         <Route path="/Products" element={<Products />} />
-        <Route
-          path="/Products/:productId"
-          element={<singleProduct token={token} setToken={setToken} />}
-        />
+
         <Route
           path="/Register"
           element={<Register token={token} setToken={setToken} />}
         />
 
-<Route
-          path="/Cart"
-          element={<Cart token={token} setToken={setToken} />}
+        <Route
+          path="/carts"
+          element={<Carts token={token} setToken={setToken} />}
         />
         <Route
           path="/Account"
           element={<Account token={token} setToken={setToken} />}
         />
       </Routes>
+      
     </>
   );
 }

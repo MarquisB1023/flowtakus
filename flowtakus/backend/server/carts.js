@@ -7,28 +7,37 @@ if (JWT === "preptime") {
   console.log("jwt functional");
 }
 
-async function createCarts({ password }) {
+async function createCarts({ user_id, product_id }) {
   const SQL = `
-    INSERT INTO Carts WHERE
-    users_products(id, userId,productId)
-     VALUES($1)
-    
-    RETURNING *
+  INSERT INTO carts 
+  (id, user_id, product_id)
+  VALUES ($1, $2, $3)
+  RETURNING *;
   `;
-  const response = await client.query(SQL, [
-    uuid.v4(),
-    await bcrypt.hash(password, 5),
-  ]);
+  const response = await client.query(SQL, [uuid.v4(), user_id, product_id]);
   return response.rows[0];
 }
 
-async function fetchCarts() {
+async function fetchCarts(user_id ) {
   const SQL = `
-    SELECT id FROM carts;
+    SELECT * 
+    FROM carts
+    WHERE user_id = $1;
   `;
-  const response = await client.query(SQL);
+  const response = await client.query(SQL, [user_id]);
   return response.rows;
 }
+
+const deleteCarts = async (user_id, product_id) => {
+  const SQL = `
+    DELETE 
+    FROM carts
+    WHERE user_id = $1 AND product_id = $2;
+  `;
+  const response = await client.query(SQL, [user_id, product_id]);
+
+  return response.rows;
+};
 
 async function findCartsWithToken(token) {
   let id;
@@ -52,11 +61,11 @@ async function findCartsWithToken(token) {
   return response.rows[0];
 }
 
-async function authenticate({ id, password }) {
+async function authenticate({ email, password }) {
   const SQL = `
-    SELECT id, password FROM carts WHERE id=$1;
+    SELECT id, password FROM carts WHERE email=$1;
   `;
-  const response = await client.query(SQL, [id]);
+  const response = await client.query(SQL, [email]);
   if (
     !response.rows.length ||
     (await bcrypt.compare(password, response.rows[0].password)) === false
@@ -72,6 +81,7 @@ async function authenticate({ id, password }) {
 module.exports = {
   createCarts,
   fetchCarts,
+  deleteCarts,
   findCartsWithToken,
   authenticate,
 };

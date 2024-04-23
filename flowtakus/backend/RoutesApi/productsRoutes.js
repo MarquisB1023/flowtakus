@@ -45,4 +45,4 @@ productsRouter.get("/:id", async (req, res, next) => {
   }
 });
 
-module.exports = productsRouter;    
+module.exports = productsRouter;
