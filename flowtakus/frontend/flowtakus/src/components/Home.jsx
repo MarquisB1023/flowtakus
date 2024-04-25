@@ -11,15 +11,14 @@ function Home() {
   return (
     <>
       <div className = "Storefront-container" >
-      <h1>
-        {/* <img id="logo-image" src={bookLogo} alt="Library App Logo" /> */}
-        FlowTakus
-      </h1>
-      <h2>Customize anime wear for shoes!</h2>
-      </div>
-      {/* <Account token={token} setFunction={setToken} />
+      <h3>
       
-      <Login token={token} setFunction={setToken} /> */}
+        Recent Anime Sneakers
+      </h3>
+     
+      </div>
+
+     
       <Products />
     
     </>

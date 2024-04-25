@@ -21,29 +21,34 @@ function Products({ token }) {
     fetchProducts();
   }, []);
 
-  const handleProductsClick = async (productId, userId) => {
-    try {
-      const response = await fetch(`${API}/carts/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-          body: JSON.stringify({
-            user_id: userId,
-            product_id: productId,
-          }),
-        },
-      });
-      if (response.ok) {
-        navigate(`/carts`);
-      } else {
-        console.error("Failed to add product to cart");
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
+//   const handleProductsClick = async (product_id, user_id) => {
+//     try {
+//       const response = await fetch(`${API}/carts/`, {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//           Authorization: `Bearer ${token}`,
+//           body: JSON.stringify({
+//             user_id: user_id,
+//             product_id: product_id,
+//           }),
+//         },
+//       });
+//       if (response.ok) {
+//         navigate(`/products/${product_id}`);
+//       } else {
+//         console.error("Failed to add product to cart");
+//       }
+//     } catch (error) {
+//       console.error(error);
+//     }
+//   };
 
+  const handleProductsClick = async (product_id) => {
+   
+        navigate(`/products/${product_id}`);
+
+  };
   return (
     <>
       <div className="Products-container">
@@ -51,17 +56,18 @@ function Products({ token }) {
           products.map((product) => {
             return (
               <div key={product.id} className="products-container">
-                <p className="products-title">{product.name}</p>
-                <img
+                 <img
                   className="products-cover"
                   src={`http://localhost:4000/${product.images[0]}`}
                   alt={product.images[0]}
                 />
+                <p className="products-title">{product.name}</p>
+               
                 <p className="products-prices">${product.price}</p>
                 <p>{product.available}</p>
                 {/* <button onClick={() => handleProductsClick(product.id)}> */}
                 <button onClick={() => handleProductsClick(product.id)}>
-                  Add To Cart
+                  View Product
                 </button>
               </div>
             );

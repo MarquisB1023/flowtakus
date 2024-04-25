@@ -12,60 +12,69 @@ function Carts({ token, setToken }) {
 
   useEffect(() => {
     async function fetchCarts() {
-      console.log("downloading items");
       try {
-        const response = await fetch(`${API}/carts/${userID}`,
-        
-        );
+        const params = useParams();
+        const user_id = params.user_id;
+        console.log("downloading items for user_id:", user_id);
+
+        const response = await fetch(`${API}/carts/${user_id}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
         console.log(response);
         const result = await response.json();
         console.log("download: ", result);
-        setCarts(result.product);
+        setCarts(result);
       } catch (error) {
         console.error(error);
       }
     }
 
     fetchCarts();
-  }, [userId]);
+  }, []);
 
-  // async function addToCart(userId) {
-  //   try {
-  //     const response = await fetch(`${API}/carts/${userId}`, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //       body: JSON.stringify({
-  //         available: false,
-  //       }),
-  //     });
-  //     const result = await response.json();
-  //     console.log(result);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }
+  async function addToCart(user_id) {
+    try {
+      const response = await fetch(`${API}/carts/${user_id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          available: false,
+        }),
+      });
+      const result = await response.json();
+      console.log(result);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   console.log("carts is: ", carts);
   return (
     <div>
+      <h2>Carts</h2>
       {carts && (
         <ul>
-          <li className="producttitle">{carts.title}</li>
-          <li className="productprice">{carts.author}</li>
+          <li className="producttitle">{carts.name}</li>
+          <li className="productprice">{carts.price}</li>
           <li className="description">{carts.description}</li>
           <li>
-            <img src={carts.coverimage} alt={carts.title} />
+            <img src={carts.images} alt={carts.images} />
           </li>
           <li>{carts.available}</li>
           <button
             onClick={async () => {
-              await addToCart(productId);
+              await addToCart(carts_id);
             }}
           >
-            Checkout
+            Delete Cart
           </button>
         </ul>
       )}

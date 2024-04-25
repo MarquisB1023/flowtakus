@@ -27,6 +27,16 @@ async function fetchProducts() {
   return response.rows;
 }
 
+const fetchProductsById = async (products_id) => {
+  const SQL = `
+    SELECT * from products
+    WHERE id =$1
+    `;
+  const response = await client.query(SQL, [products_id]);
+
+  return response.rows[0];
+};
+
 async function findProductsWithToken(token) {
   let id;
   try {
@@ -69,7 +79,7 @@ async function authenticate({ id, password }) {
 module.exports = {
   createProducts,
   fetchProducts,
-
+  fetchProductsById,
   findProductsWithToken,
   authenticate,
 };

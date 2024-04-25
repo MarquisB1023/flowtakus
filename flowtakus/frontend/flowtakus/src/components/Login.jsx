@@ -41,7 +41,7 @@ function Login({ setToken }) {
       <div className="logincontainer">
         <h2>Login</h2>
         <form onSubmit={handleSubmit}>
-          <h2>Email</h2>
+          
           {error && <p>{error}</p>}
           <label>
             Email:
@@ -63,7 +63,7 @@ function Login({ setToken }) {
               onChange={(e) => setPassword(e.target.value)}
             />
           </label>
-          <button type="submit">Login</button>
+          <button className="submit" type="submit">Login</button>
         </form>
       </div>
     </>

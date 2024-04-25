@@ -6,7 +6,7 @@ const API = "http://localhost:4000/api";
 function Account({ token, setToken }) {
   console.log("account", token);
 
-  const [accounts, setAccounts] = useState(null);
+  const [account, setAccount] = useState(null);
   const [error, setError] = useState();
   async function downloadUser() {
     try {
@@ -19,14 +19,14 @@ function Account({ token, setToken }) {
       });
       const result = await response.json();
       console.log(result);
-      setAccounts(result);
+      setAccount(result);
     } catch (error) {
       console.error(error);
     }
   }
   async function deleteCarts(userId) {
     try {
-      const response = await fetch(`${API}/api/carts/${userId}`, {
+      const response = await fetch(`${API}/api/carts/${user_id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -56,15 +56,15 @@ function Account({ token, setToken }) {
     <>
       {!token && <Navigate to="/" replace={true} />}
       {error && <p>{error}</p>}
-      {accounts && (
+      {account && (
         <div>
           <ul>
-            {/* <li>Name: {accounts.name}</li>
-            <li>Email: {accounts.email}</li>
+            <li>Name: {account.name}</li>
+            <li>Email: {account.email}</li>
             <li>
-              Carts:
+              {/* Carts:
               <ul>
-                {accounts.Carts.map((cart) => {
+                {account.Carts.map((cart) => {
                   return (
                     <div>
                       <li key={cart.id}>{cart.title}</li>
@@ -80,8 +80,8 @@ function Account({ token, setToken }) {
                     </div>
                   );
                 })}
-              </ul>
-            </li> */}
+              </ul> */}
+            </li>
           </ul>
           <button token={token} onClick={handleLogout}>
             logoout

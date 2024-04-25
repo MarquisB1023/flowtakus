@@ -9,7 +9,7 @@ import Login from "./components/Login.jsx";
 import Navigation from "./components/Navigation";
 import Register from "./components/Register.jsx";
 import Carts from "./components/Carts.jsx";
-import singleProduct from "./components/singleProduct";
+import SingleProduct from "./components/SingleProduct";
 import { Routes, Route } from "react-router-dom";
 
 function App() {
@@ -21,13 +21,12 @@ function App() {
 
   return (
     <>
-      <div id="navbar">
+    
         <Navigation token={token} setToken={setToken} />
-      </div>
+    
       <Routes>
         <Route path="/" element={<Home />} />
-        
-       
+
         <Route
           path="/Login"
           element={<Login token={token} setToken={setToken} />}
@@ -38,7 +37,10 @@ function App() {
           path="/Register"
           element={<Register token={token} setToken={setToken} />}
         />
-
+        <Route
+          path="/Products/:product_id"
+          element={<SingleProduct token={token} setToken={setToken} />}
+        />
         <Route
           path="/carts"
           element={<Carts token={token} setToken={setToken} />}
@@ -48,7 +50,6 @@ function App() {
           element={<Account token={token} setToken={setToken} />}
         />
       </Routes>
-      
     </>
   );
 }

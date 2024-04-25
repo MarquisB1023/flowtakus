@@ -26,8 +26,9 @@ const createTables = async () => {
     CREATE TABLE products(
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
         name VARCHAR(255) NOT NULL,
-        price VARCHAR(255) NOT NULL
-       
+        price VARCHAR(255) NOT NULL,
+        artist VARCHAR(255) NOT NULL,
+        description VARCHAR(255) NOT NULL
         );
        
         CREATE TABLE users(
@@ -48,7 +49,6 @@ const createTables = async () => {
                 id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
                 name VARCHAR(255) NOT NULL,
                 product_id UUID REFERENCES products(id)
-                
                 );
           
     `;
@@ -84,18 +84,16 @@ INSERT INTO  users (name, password,email) VALUES ('Frank',$1,'wnfiw@email'),
 
 const seedProducts = async () => {
   const SQL = ` 
- 
-  INSERT INTO products (name,price) VALUES('Bleach Grimmjows','120'),
-  ('Akatsuki Design','210'),
-  ('Gojo','110'),
-  ('Deku','123'),
-  ('Trunks','230'),
-  ('Mikasa','130'),
-  ('Gon','95'),
-  ('Baki','130')
-  RETURNING *
-  ;
-
+  INSERT INTO products (name, price, artist, description) VALUES
+  ('Bleach Grimmjows', '120', 'GriddyMave', 'Lowtop custom design for Bleach fans of Grimjow with a variety of sizes to choose from. Comfortable soles and great with other otaku outfits.'),
+  ('Akatsuki Design', '210', 'AlexTheGreat', 'Hightop custom design from Narutos Akatsuki. Customized from Nikes hightop shoes.'),
+  ('Gojo', '110', 'MadHatter', 'Low top Nike shoe design of JuJutsu Kaisens Gojo styled by MadHatter. Comfortable fit for walking, or running and goes well with other outfits.'),
+  ('Deku', '123', 'LotusFlare', 'Hightop custom design from My Hero Academias character Deku.'),
+  ('Trunks', '230', 'CrimsonKicks', 'DBZ Trunks designed in the lowtop Nike custom from the artist CrimsonKicks.'),
+  ('Mikasa', '130', 'Dylan Mitchell', 'Attack on Titan Mikasa artwork custom made into a well-fitting lowtop Nike.'),
+  ('Gon', '95', 'Stacy Manes', 'Hightop custom design from Hunter x Hunters Gon created by the talented Stacy Manes.'),
+  ('Baki', '130', 'Craig Maves', 'Lowtop work of Yujiro Hanma from Baki designed by artist Craig Maves.')
+RETURNING *;
   `;
 
   const result = await client.query(SQL);
@@ -229,28 +227,28 @@ const fetchProducts = async () => {
 
   return response.rows;
 };
-const fetchProductsById = async (products_id) => {
+const fetchProductsById = async (product_id) => {
   const SQL = `
-    SELECT * from products
+    SELECT * FROM products
     WHERE id =$1
     `;
-  const response = await client.query(SQL, [products_id]);
+  const response = await client.query(SQL, [product_id]);
 
-  return response.rows;
+  return response.rows[0];
 };
 
-const fetchCarts = async (user_id, products_id) => {
+const fetchCarts = async (user_id, product_id) => {
   const SQL = `
   SELECT * 
   FROM carts
   WHERE user_id = $1 AND product_id = $2;
     `;
-  const response = await client.query(SQL, [user_id, products_id]);
+  const response = await client.query(SQL, [user_id, product_id]);
 
   return response.rows;
 };
 
-const createCarts = async ({ user_id ,product_id}) => {
+const createCarts = async ({ user_id, product_id }) => {
   const id = uuidv4();
   const SQL = `
   INSERT INTO carts 
@@ -263,23 +261,33 @@ const createCarts = async ({ user_id ,product_id}) => {
   return response.rows[0];
 };
 
-const deleteCarts = async (user_id, products_id) => {
+const deleteCarts = async (user_id, product_id) => {
   const SQL = `
   DELETE 
   FROM carts
   WHERE user_id = $1 AND product_id = $2;
       `;
-  const response = await client.query(SQL, [user_id, products_id]);
+  const response = await client.query(SQL, [user_id, product_id]);
 
   return response.rows;
 };
 
-const fetchProductsImages = async (products_id) => {
+// const fetchProductsImages = async (product_id) => {
+//   const SQL = `
+//     SELECT * from productImages
+//     where id =$1
+//     `;
+//   const response = await client.query(SQL, [product_id]);
+//   return response.rows;
+// };
+
+const fetchProductsImagesById = async (product_id) => {
   const SQL = `
-    SELECT * from productImages
-    where id =$1
-    `;
-  const response = await client.query(SQL, [products_id]);
+      SELECT * FROM productImages
+      where product_id =$1
+      `;
+  const response = await client.query(SQL, [product_id]);
+  return response.rows;
 };
 
 const fetchAllProductsImages = async () => {
@@ -302,7 +310,7 @@ const Carts = async (user_id, product_id) => {
 module.exports = {
   seed,
   client,
-  fetchProductsImages,
+  //   fetchProductsImages,
   fetchAllProductsImages,
   authenticateUser,
   createUser,
@@ -312,6 +320,7 @@ module.exports = {
   fetchUsers,
   fetchProducts,
   fetchProductsById,
+  fetchProductsImagesById,
   fetchCarts,
   Carts,
 };

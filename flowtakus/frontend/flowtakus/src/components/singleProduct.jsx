@@ -1,49 +1,43 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-const API = 'http://localhost:4000/api'
+const API = "http://localhost:4000/api";
 
-function Singleproduct({ token, setToken }) {
+function SingleProduct({ token }) {
   console.log("Loaded!");
-  const params = useParams();
-  const productId = params.productId;
- 
+  const { product_id } = useParams();
+
   const [singleProduct, setSingleProduct] = useState(null);
 
   useEffect(() => {
     async function fetchSingleProduct() {
       console.log("downloading product");
       try {
-        const response = await fetch(
-          `${API}/productId`
-        );
+        const response = await fetch(`${API}/products/${product_id}`);
         console.log(response);
         const result = await response.json();
         console.log("download: ", result);
-        setSingleProduct(result.product);
+        setSingleProduct(result);
       } catch (error) {
         console.error(error);
       }
     }
 
     fetchSingleProduct();
-  }, [productId]);
+  }, [product_id, token]);
 
-  async function checkoutProduct(productId) {
+  async function checkoutProduct(user_id) {
     try {
-      const response = await fetch(
-        `${API}/products/${productId}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            available: false,
-          }),
-        }
-      );
+      const response = await fetch(`${API}/carts/${user_id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          available: false,
+        }),
+      });
       const result = await response.json();
       console.log(result);
     } catch (error) {
@@ -53,27 +47,35 @@ function Singleproduct({ token, setToken }) {
 
   console.log("Single product is: ", singleProduct);
   return (
-    <div>
+    <div className="product-box">
+      <h1> Product </h1>
       {singleProduct && (
-        <ul>
-          <li className ="producttitle">{singleProduct.title}</li>
-          <li className ="productauthor">{singleProduct.author}</li>
-          <li className ="description">{singleProduct.description}</li>
+        <div>
+        <ul >
           <li>
-            <img src={singleProduct.coverimage} alt={singleProduct.title} />
+            <img
+              src={`http://localhost:4000/${singleProduct.images}`}
+              alt={singleProduct.images}
+            />
           </li>
+          <li className="producttitle">{singleProduct.name}</li>
+          <li className="productauthor">Artist:{singleProduct.artist}</li>
+          <li className="price">${singleProduct.price}</li>
+          <li className="description">{singleProduct.description}</li>
+
           <li>{singleProduct.available}</li>
           <button
             onClick={async () => {
-              await checkoutProduct(productId);
+              await checkoutProduct(product_id);
             }}
           >
             Checkout
           </button>
         </ul>
+        </div>
       )}
     </div>
   );
 }
 
-export default Singleproduct;
+export default SingleProduct;
