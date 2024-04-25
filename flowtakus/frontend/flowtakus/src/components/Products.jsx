@@ -4,6 +4,7 @@ const API = "http://localhost:4000/api";
 
 function Products({ token }) {
   const [products, setProducts] = useState([]);
+  const [searchText , setSearchText] = useState("")
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -49,11 +50,15 @@ function Products({ token }) {
         navigate(`/products/${product_id}`);
 
   };
+  const displayProducts = products.filter((product)=>product.name.toLowerCase().includes(searchText))
   return (
     <>
+    <div className="searchProduct">
+    <input type="text" placeholder ="search product by name" onChange={(event) => { const input = event.target.value; setSearchText(input.toLowerCase()) }}></input>
+    </div>
       <div className="Products-container">
-        {products &&
-          products.map((product) => {
+        {displayProducts &&
+          displayProducts.map((product) => {
             return (
               <div key={product.id} className="products-container">
                  <img

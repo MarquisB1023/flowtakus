@@ -117,12 +117,29 @@ nav {
   gap: 20px;
   font-size: 20px;
 }
-
+@media screen and (min-width: 480px) {
 body {
   width: 100vw;
   height: 100vh;
 }
+}
+.searchProduct{
+  display: flex;
 
+  justify-content: center;
+  padding-bottom: 50px;
+  
+  border-color: rgb(151, 23, 51);
+
+}
+
+
+
+input{
+  border-color: rgb(151, 23, 51);
+  color: rgb(89, 34, 46);
+  background-color: rgba(213, 170, 170, 0.203);
+}
 a {
   list-style-type: none;
   text-decoration: none;
@@ -148,6 +165,7 @@ a:hover {
   gap: 10px;
   justify-items: center;
   text-align: center;
+  justify-content: center;
 }
 .account{
 
