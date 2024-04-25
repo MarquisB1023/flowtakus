@@ -2,9 +2,12 @@
   display: flex;
   flex-direction: row;
   justify-content: center;
+  background-color: rgba(255, 255, 255, 0.068);
+  box-shadow: 0px 3px 1px 0 rgb(190, 190, 190);
+  background-size: 100vw;
+  background-size: cover;
 
-  width: 100vw;
-  height: 150px;
+  height: 100px;
 }
 
 .logotitle {
@@ -26,42 +29,47 @@
   width: 50px;
 }
 
-.regcontainer{
-
+.regcontainer {
   display: flex;
   flex-direction: column;
   align-items: center;
- 
+
   height: 30px;
 }
 
-.logincontainer{
+.logincontainer {
   display: flex;
   flex-direction: column;
-  
- align-items: center;
+
+  align-items: center;
 }
 h1 {
+
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
   font-size: 50px;
   line-height: 1px;
   text-align: center;
+
+}
+.recent-container{
+padding: 100px 0px 20px 90px
 }
 
 h2 {
   font-family: sans-serif;
   font-weight: 500;
-  font-size: 20px;
+  font-size: 30px;
   height: 40px;
+
 }
 
-.submit{
+.submit {
   display: block;
 
-   width: 90px;
-   height: 30px;
-   gap: 10px;
+  width: 90px;
+  height: 30px;
+  gap: 10px;
 }
 
 h3 {
@@ -72,6 +80,10 @@ h3 {
   text-align: center;
 
   height: 20px;
+}
+
+.carts{
+ text-align: center;
 }
 
 p {
@@ -112,13 +124,11 @@ a:hover {
   text-decoration: none;
   color: rgb(243, 232, 232);
   background-color: rgb(100, 24, 24);
-  height:30px;
+  height: 30px;
   width: 70px;
   transition: ease-in-out 0.1s;
   text-align: center;
 }
-
-
 
 .Products-container {
   display: grid;
@@ -128,39 +138,46 @@ a:hover {
   justify-items: center;
   text-align: center;
 }
+.account{
 
-ul{
-  
-  height:100px;
+text-align: center;
+
+}
+
+ul {
+  height: 100px;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-decoration: none;
-  
 }
 
-li{
-  
+li {
   text-align: left;
   list-style: none;
   font-size: 18px;
   color: rgb(9, 9, 9);
   width: 400px;
   line-height: 25px;
-  
-  
 }
- .price{
-  color:brown
- }
+.price {
+  color: brown;
+}
 
 button {
   text-decoration: none;
-  border: 1px solid  rgb(89, 34, 46);
+  border: 1px solid rgb(151, 23, 51);
   color: rgb(255, 255, 255);
-  background-color: rgb(89, 34, 46);
+  background-color: rgb(151, 23, 51);
   width: 120px;
   height: 50px;
+}
+
+.logout{
+  display: flex;
+  flex-direction: row;
+ justify-content: center;
+
 }
 
 button:hover {

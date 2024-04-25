@@ -59,7 +59,9 @@ function Carts({ token, setToken }) {
   console.log("carts is: ", carts);
   return (
     <div>
+      <div className="carts">
       <h2>Carts</h2>
+      </div>
       {carts && (
         <ul>
           <li className="producttitle">{carts.name}</li>

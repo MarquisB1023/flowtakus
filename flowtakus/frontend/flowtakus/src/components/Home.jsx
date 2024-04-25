@@ -10,7 +10,7 @@ import Products from "./Products";
 function Home() {
   return (
     <>
-      <div className = "Storefront-container" >
+      <div className = "recent-container" >
       <h3>
       
         Recent Anime Sneakers

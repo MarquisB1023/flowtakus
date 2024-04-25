@@ -58,6 +58,9 @@ function Account({ token, setToken }) {
       {error && <p>{error}</p>}
       {account && (
         <div>
+            <div className="account">
+            <h2 >Account</h2>
+            </div>
           <ul>
             <li>Name: {account.name}</li>
             <li>Email: {account.email}</li>
@@ -83,9 +86,11 @@ function Account({ token, setToken }) {
               </ul> */}
             </li>
           </ul>
-          <button token={token} onClick={handleLogout}>
+          <div className="logout">
+          <button  token={token} onClick={handleLogout}>
             logoout
           </button>
+          </div>
         </div>
       )}
     </>
