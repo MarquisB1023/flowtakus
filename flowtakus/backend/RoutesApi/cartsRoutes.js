@@ -21,7 +21,7 @@ cartsRouter.post("/", async (req, res, next) => {
 
 cartsRouter.delete("/:id", async (req, res, next) => {
   try {
-    res.send(await client.deleteCarts(req.body));
+    res.send(await client.deleteCarts(req.params.id));
   } catch (error) {
     next(error);
   }
@@ -29,7 +29,8 @@ cartsRouter.delete("/:id", async (req, res, next) => {
 
 cartsRouter.get("/:id", async (req, res, next) => {
   try {
-    res.send(await client.fetchCarts(req.body));
+
+    res.send(await client.fetchCartById(req.params.id));
   } catch (error) {
     next(error);
   }

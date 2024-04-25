@@ -26,16 +26,16 @@ function SingleProduct({ token }) {
     fetchSingleProduct();
   }, [product_id, token]);
 
-  async function checkoutProduct(user_id) {
+  async function checkoutProduct(productId) {
     try {
-      const response = await fetch(`${API}/carts/${user_id}`, {
+      const response = await fetch(`${API}/carts/`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          available: false,
+          product_id: productId,
         }),
       });
       const result = await response.json();
@@ -66,7 +66,7 @@ function SingleProduct({ token }) {
           <li>{singleProduct.available}</li>
           <button
             onClick={async () => {
-              await checkoutProduct(product_id);
+              await checkoutProduct(singleProduct.id);
             }}
           >
             Checkout

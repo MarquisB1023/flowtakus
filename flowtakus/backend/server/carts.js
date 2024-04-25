@@ -27,6 +27,16 @@ async function fetchCarts(user_id ) {
   const response = await client.query(SQL, [user_id]);
   return response.rows;
 }
+const fetchCartById = async (user_id, product_id) => {
+  const SQL = `
+  SELECT * 
+  FROM carts
+  WHERE user_id = $1 AND product_id = $2;
+    `;
+  const response = await client.query(SQL, [user_id, product_id]);
+
+  return response.rows;
+};
 
 const deleteCarts = async (user_id, product_id) => {
   const SQL = `
@@ -80,6 +90,7 @@ async function authenticate({ email, password }) {
 
 module.exports = {
   createCarts,
+  fetchCartById,
   fetchCarts,
   deleteCarts,
   findCartsWithToken,

@@ -38,27 +38,21 @@ productsRouter.get("/", async (req, res, next) => {
   }
 });
 
-productsRouter.get("/:id", async (req, res, next) => {
-  try {
-    res.send(await fetchProductsById(req.params.id));
-  } catch (error) {
-    next(error);
-  }
-});
+
 
 productsRouter.get("/:id", async (req, res, next) => {
   try {
+    console.log("endpoint breached");
     const productImages = await client.fetchProductsImagesById(req.params.id);
-    const products = await client.fetchProductsById(req.params.id);
+    console.log("finding images", productImages);
+    const product = await client.fetchProductsById(req.params.id);
 
-    for (const product of products) {
-      const imageNames = productImages
-        .filter((image) => image.product_id === product.id)
-        .map((image) => image.name);
-      product.images = imageNames;
-    }
+    const imageNames = productImages
+      .filter((image) => image.product_id === product.id)
+      .map((image) => image.name);
+    product.images = imageNames;
 
-    res.send(products);
+    res.send(product);
   } catch (error) {
     next(error);
   }

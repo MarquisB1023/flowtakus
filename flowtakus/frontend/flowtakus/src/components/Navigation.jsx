@@ -11,7 +11,7 @@ function Navigation({ token, setToken }) {
     <div id="nav-container">
       <div className="Storefront-navbar">
         <h1 className="logotitle">
-          FlowTakus <img className="icon" src={tokyoicon} alt="tokyoicon"></img>
+          <a href="/" className="FlowTakusLink">FlowTakus</a> <img className="icon" src={tokyoicon} alt="tokyoicon"></img>
         </h1>
         {/* <h2 class="subheader">Customize anime wear for shoes!</h2> */}
       

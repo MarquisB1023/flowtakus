@@ -248,6 +248,17 @@ const fetchCarts = async (user_id, product_id) => {
   return response.rows;
 };
 
+const fetchCartById = async (cart_id) => {
+  const SQL = `
+    SELECT * 
+    FROM carts
+    WHERE  id = $1;
+      `;
+  const response = await client.query(SQL, [cart_id]);
+
+  return response.rows[0];
+};
+
 const createCarts = async ({ user_id, product_id }) => {
   const id = uuidv4();
   const SQL = `
@@ -284,7 +295,7 @@ const deleteCarts = async (user_id, product_id) => {
 const fetchProductsImagesById = async (product_id) => {
   const SQL = `
       SELECT * FROM productImages
-      where product_id =$1
+      where product_id =$1;
       `;
   const response = await client.query(SQL, [product_id]);
   return response.rows;
@@ -321,6 +332,7 @@ module.exports = {
   fetchProducts,
   fetchProductsById,
   fetchProductsImagesById,
+  fetchCartById,
   fetchCarts,
   Carts,
 };

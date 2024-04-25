@@ -5,16 +5,12 @@ const API = "http://localhost:4000/api";
 
 function Carts({ token, setToken }) {
   console.log("Loaded!");
-  const params = useParams();
-  const productId = params.productId;
 
   const [carts, setCarts] = useState(null);
 
   useEffect(() => {
     async function fetchCarts() {
       try {
-        const params = useParams();
-        const user_id = params.user_id;
         console.log("downloading items for user_id:", user_id);
 
         const response = await fetch(`${API}/carts/${user_id}`, {
@@ -37,7 +33,7 @@ function Carts({ token, setToken }) {
     fetchCarts();
   }, []);
 
-  async function addToCart(user_id) {
+  async function deleteCart(user_id) {
     try {
       const response = await fetch(`${API}/carts/${user_id}`, {
         method: "DELETE",
@@ -60,7 +56,7 @@ function Carts({ token, setToken }) {
   return (
     <div>
       <div className="carts">
-      <h2>Carts</h2>
+        <h2>Carts</h2>
       </div>
       {carts && (
         <ul>
@@ -73,7 +69,7 @@ function Carts({ token, setToken }) {
           <li>{carts.available}</li>
           <button
             onClick={async () => {
-              await addToCart(carts_id);
+              await deleteCart(carts_id);
             }}
           >
             Delete Cart
